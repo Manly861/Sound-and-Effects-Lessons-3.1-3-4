@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
         {
             gameOver = false;
             Debug.Log("Game Over!");
+            playerAim.SetBool("Death_b", true);
+            playerAim.SetInteger("DeathType_int", 1);
         }
     }
 }
