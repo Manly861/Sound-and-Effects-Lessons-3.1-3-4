@@ -13,12 +13,14 @@ public class PlayerController : MonoBehaviour
     public float gravityModifier;
     public bool isOnGround = true;
     public bool gameOver = true;
+    public ScoreManager scoreManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         playerAim = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
+        scoreManager = GetComponent<ScoreManager>();
         Physics.gravity *= gravityModifier;
     }
 
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
         {
             isOnGround = true;
             dirtParticle.Play();
+            scoreManager.UpdateScoreText(5);
         }
         else if(collision.gameObject.CompareTag("Obstacle"))
         {
@@ -49,6 +52,7 @@ public class PlayerController : MonoBehaviour
             explosionParticle.Play();
             dirtParticle.Stop();
             playerAudio.PlayOneShot(crashSound, 1.0f);
+            scoreManager.UpdateScoreText(0);
 
         }
     }
