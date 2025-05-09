@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public bool isOnGround = true;
     public bool gameOver = true;
     public ScoreManager scoreManager;
+    private bool hasJumped = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround && gameOver != false)
         {
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            hasJumped = true;
             isOnGround = false;
             playerAim.SetTrigger("Jump_trig");
             dirtParticle.Stop();
@@ -41,7 +43,10 @@ public class PlayerController : MonoBehaviour
         {
             isOnGround = true;
             dirtParticle.Play();
-            scoreManager.UpdateScoreText(5);
+            if (hasJumped && gameOver){
+                scoreManager.UpdateScoreText(5);
+            }
+            
         }
         else if(collision.gameObject.CompareTag("Obstacle"))
         {
